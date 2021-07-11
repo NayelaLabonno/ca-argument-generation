@@ -68,37 +68,34 @@ BLEU-2: 0.6147962692497115
 BLEU:   0.41094337139299003
 ```
 
-## **TODO - change EVERYTHING below s.t. it fits to this task**
-
 ### **Requirements**
 
 Required libraries:
 
-* nltk~=3.6.2
-* pandas~=1.2.4
-* numpy~=1.20.3
-* tqdm~=4.61.1
-* scikit-learn~=0.24.2
-*  alt-profanity-check~=0.24.0
+* numpy ~=3.6.2
+* pandas ~=1.1.5
+* networkx ~=2.5.1
+* nltk ~=3.2.5
+* scikit-learn ~=0.22.2
 * json
 * os
 * re
-* time
-* datetime
-
-Note that even though the installation of `alt-profanity-check`might state that it is not compatible with `scikit-learn 0.24.2` (this version is required by another of the used libraries), the program still runs using the libraries listed above. 
 
 
 ### **How to Run**
 
-```bash 
-python args-assessor.py
-```
+Open the `conclusion-generator.ipynb` using a `jupyter notebook` or `Google colab`. The `train_data.json`, `valid_data.json`
+and `eval.py` should all be within the same working directory. In the `Runtime` tab, `Run all` should be clicked to begin execution
+
 
 #### **Evaluation Script**
+For the evaluation, the following line needs to be executed in the notebook:
+
 ```bash
-python eval.py --true val-data-prepared.json --predictions predictions.json
+!python eval.py --true valid_data.json --predictions predictions.json
 ```
+
+If you used `Run all`, this should already have been executed and you can see the results of the evaluation at the end of the notebook.
 
 ### **References**
 [1] Alshomary et al. 2020, Extractive Snippet Generation for Arguments
