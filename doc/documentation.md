@@ -18,8 +18,9 @@ After these preprocessing steps, we tokenize arguments into sentence level using
 ### **Similarity matrix**
 In order to calculate the cosine similarity matrix, we do the following:  
 
-In general, if we find non-ascii text in the given text (e.g., there is 'λύνεται έτσι μια διοικητική, νομική' in the validation data set), we ignore this non-ascii text. 
-We decided this because otherwise, the function that calculates the cosine similarity cannot deal with these none-ascii characters.  
+In general, if we find non-ascii text in any given text (e.g., there is ´`λύνεται έτσι μια διοικητική, νομική` in the validation data set), we ignore these non-ascii parts of the text and only consider the (remaining) ascii-parts. 
+This means, if a text consists of both, ascii and non-ascii parts, we do not discard it completely, but we only use the ascii-part of it in further steps. 
+We decided this because otherwise, the function that calculates the cosine similarity cannot deal with these non-ascii characters.  
 
 Then, each sentence of an argument is stripped off all its special characters.  
 Stop words are removed using the nltk stopwords module. 
@@ -28,19 +29,36 @@ Using sklearn library, the TFIDF matrix for each stemmed sentence of an argument
 
 ## **TODO - expand the following section, give reasonings; paper references?!**
 ### **Generate conclusion**
-Based on the similarity matrix, we extract a graph and then calculate the PageRank of its nodes using `networkx.pagerank`. 
-Then, we use the top `n` sentences with the highest PageRank score and use these as a summary of the given argument.
+Based on the reasoning given by Alshomary et al. 2020 [1], we decided to use a very similar, **extractive summarization** approach. 
+For this, we extract a graph based on the cosine similarity matrix and then calculate the PageRank of its nodes using `networkx.pagerank`. 
+Then, we use the top `n` sentences with the highest PageRank score and use these as a summary of the given argument (or, in case that `n` is larger than the number of sentences for the argument, we use the number of sentences of the argument).  
 
-
+We tried different values for `n`, namely 1, 2 and 3. 
+We decided against using the top 3 sentences as a summary for the argument because of the given arguments many do not contain many sentences (often: 2-4 sentences). 
+This then often results in returning the complete argument as a summarization, which is obviously not the aim of our task. 
+For the decision whether to use the top 2 sentences, as suggested in PAPER versus using only the 1 highest-ranking sentence, we compared the resulting BLEU scores. 
+For top 2 we received the following scores: 
+```
+BLEU-1: 0.13244589770119441
+BLEU-2: 0.6052621879897253
+BLEU:   0.40231336204959456
+```
+In contrast to this, the results where better when using the top 1 sentence:
+```
+BLEU-1: 0.1385736124232639
+BLEU-2: 0.6147962692497115
+BLEU:   0.41094337139299003
+```
+Therefore, we decided to use only the one sentence with the highest ranking as a summary of the argument.
 
 ### **Validation and Evaluation**
 
-To evaluate the performance of our argument generation approach, we are calculating BLEU-1, BLEU-2 and BLEU score.
+To evaluate the performance of our argument generation approach, we are calculating BLEU-1, BLEU-2 and BLEU score:
 
 ```
-BLEU-1: 0.126078
-BLEU-2: 0.553019
-BLEU:   0.371241
+BLEU-1: 0.1385736124232639
+BLEU-2: 0.6147962692497115
+BLEU:   0.41094337139299003
 ```
 
 ## **TODO - change EVERYTHING below s.t. it fits to this task**
@@ -74,3 +92,6 @@ python args-assessor.py
 ```bash
 python eval.py --true val-data-prepared.json --predictions predictions.json
 ```
+
+### **References**
+[1] Alshomary et al. 2020, Extractive Snippet Generation for Arguments
