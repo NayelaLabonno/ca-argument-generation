@@ -1,4 +1,4 @@
-## **Argument generation**
+## **Argument Generation**
 The aim of our argument generation approach is to generate statements in natural language that can be used as a conclusion of an argument which is given in natural language.
 
 
@@ -15,7 +15,7 @@ Therefore, also backed up by our scoring results, we decided to always replace "
 After these preprocessing steps, we tokenize arguments into sentence level using the nltk library.  
 
 
-### **Similarity matrix**
+### **Similarity Matrix**
 In order to calculate the cosine similarity matrix, we do the following:  
 
 In general, if we find non-ascii text in any given text (e.g., there is ´`λύνεται έτσι μια διοικητική, νομική` in the validation data set), we ignore these non-ascii parts of the text and only consider the (remaining) ascii-parts. 
@@ -27,9 +27,10 @@ Stop words are removed using the nltk stopwords module.
 The PorterStemmer class is then used to retrieve the stemmed version of each sentence. 
 Using sklearn library, the TFIDF matrix for each stemmed sentence of an argument is used as input to compute the cosine similarity of each sentence pair and the values are saved into a multidimensional array.  
 
-## **TODO - expand the following section, give reasonings; paper references?!**
-### **Generate conclusion**
+
+### **Generate Conclusion**
 Based on the reasoning given by Alshomary et al. 2020 [1], we decided to use a very similar, **extractive summarization** approach. 
+Our approach is a graph-based and ranking-based approach. 
 For this, we extract a graph based on the cosine similarity matrix and then calculate the PageRank of its nodes using `networkx.pagerank`. 
 This is done to rank the sentences by their importance of representing the core of the arguments. 
 Then, we use the top `n` sentences with the highest PageRank score and use these as a summary of the given argument (or, in case that `n` is larger than the number of sentences for the argument, we use the number of sentences of the argument).  
@@ -50,7 +51,12 @@ BLEU-1: 0.1385736124232639
 BLEU-2: 0.6147962692497115
 BLEU:   0.41094337139299003
 ```
-Therefore, we decided to use only the one sentence with the highest ranking as a summary of the argument.
+Therefore, we decided to use only the one sentence with the highest ranking as a summary of the argument.  
+
+**Please note** that one advantage of our approach is, that, since we are only extracting the most representative sentence of each argument, we do not need a pre-trained model or use a trained model at all. 
+In fact, we are not using the training data. 
+Therefore we are not submitting a trained model, since it does not exist and is not necessary for our approach. 
+Our approach works directly on the data for which a conclusion is to be generated.
 
 ### **Validation and Evaluation**
 
@@ -83,13 +89,13 @@ Required libraries:
 Note that even though the installation of `alt-profanity-check`might state that it is not compatible with `scikit-learn 0.24.2` (this version is required by another of the used libraries), the program still runs using the libraries listed above. 
 
 
-### **How to run**
+### **How to Run**
 
 ```bash 
 python args-assessor.py
 ```
 
-#### **Evaluation script**
+#### **Evaluation Script**
 ```bash
 python eval.py --true val-data-prepared.json --predictions predictions.json
 ```
