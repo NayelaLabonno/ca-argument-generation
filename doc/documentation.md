@@ -75,7 +75,8 @@ BLEU-1: 0.13856187650557936
 BLEU-2: 0.02224084396970946
 BLEU:   0.008788570155044381
 ```
-We do not know why these values differ so much when using Google Colab versus Anaconda, but based on the information we got in the tutorial (that Bleu-`n` is usually significantly lower the higher `n` gets), we think the values we received using Anaconda are more reliable.
+We do not know why these values differ so much when using Google Colab versus Anaconda, but based on the information we got in the tutorial (that Bleu-`n` is usually significantly lower the higher `n` gets), we think the values we received using Anaconda are more reliable.  
+Based on the warnings regarding n-grams that Anaconda prints, we do not consider the BLEU score, but only used the BLEU-1 and BLEU-2 score for evaluating whether our approach meets the given baseline.
 
 
 ### **Requirements**
