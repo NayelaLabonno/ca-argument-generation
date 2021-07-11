@@ -38,7 +38,8 @@ Then, we use the top `n` sentences with the highest PageRank score and use these
 We tried different values for `n`, namely 1, 2 and 3. 
 We decided against using the top 3 sentences as a summary for the argument because of the given arguments many do not contain many sentences (often: 2-4 sentences). 
 This then often results in returning the complete argument as a summarization, which is obviously not the aim of our task. 
-For the decision whether to use the top 2 sentences, as suggested in PAPER versus using only the 1 highest-ranking sentence, we compared the resulting BLEU scores. 
+For the decision whether to use the top 2 sentences, as suggested in [1] versus using only the 1 highest-ranking sentence, we compared the resulting BLEU scores. 
+Using Google Colman, we got the following results: 
 For top 2 we received the following scores: 
 ```
 BLEU-1: 0.13244589770119441
@@ -60,13 +61,22 @@ Our approach works directly on the data for which a conclusion is to be generate
 
 ### **Validation and Evaluation**
 
-To evaluate the performance of our argument generation approach, we are calculating BLEU-1, BLEU-2 and BLEU score:
+To evaluate the performance of our argument generation approach, we are calculating BLEU-1, BLEU-2 and BLEU score (using Google Colman):
 
 ```
 BLEU-1: 0.1385736124232639
 BLEU-2: 0.6147962692497115
 BLEU:   0.41094337139299003
 ```
+
+When later using Anaconda, we received different, much lower scores for BLEU-2 and BLEU, though the results for BLEU-1 were nearly the same:
+```
+BLEU-1: 0.13856187650557936
+BLEU-2: 0.02224084396970946
+BLEU:   0.008788570155044381
+```
+We do not know why these values differ so much when using Google Colab versus Anaconda, but based on the information we got in the tutorial (that Bleu-`n` is usually significantly lower the higher `n` gets), we think the values we received using Anaconda are more reliable.
+
 
 ### **Requirements**
 
