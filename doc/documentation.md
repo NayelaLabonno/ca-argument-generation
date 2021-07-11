@@ -31,6 +31,7 @@ Using sklearn library, the TFIDF matrix for each stemmed sentence of an argument
 ### **Generate conclusion**
 Based on the reasoning given by Alshomary et al. 2020 [1], we decided to use a very similar, **extractive summarization** approach. 
 For this, we extract a graph based on the cosine similarity matrix and then calculate the PageRank of its nodes using `networkx.pagerank`. 
+This is done to rank the sentences by their importance of representing the core of the arguments. 
 Then, we use the top `n` sentences with the highest PageRank score and use these as a summary of the given argument (or, in case that `n` is larger than the number of sentences for the argument, we use the number of sentences of the argument).  
 
 We tried different values for `n`, namely 1, 2 and 3. 
