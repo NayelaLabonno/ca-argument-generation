@@ -15,7 +15,7 @@ Therefore, also backed up by our scoring results, we decided to always replace "
 After these preprocessing steps, we tokenize arguments into sentence level using the nltk library.  
 
 
-## **Similarity matrix**
+### **Similarity matrix**
 In order to calculate the cosine similarity matrix, we do the following:  
 
 In general, if we find non-ascii text in the given text (e.g., there is 'λύνεται έτσι μια διοικητική, νομική' in the validation data set), we ignore this non-ascii text. 
@@ -24,7 +24,12 @@ We decided this because otherwise, the function that calculates the cosine simil
 Then, each sentence of an argument is stripped off all its special characters.  
 Stop words are removed using the nltk stopwords module. 
 The PorterStemmer class is then used to retrieve the stemmed version of each sentence. 
-Using sklearn library, the TFIDF matrix for each stemmed sentence of an argument is used as input to compute the cosine similarity of each sentence pair and the values are saved into a multidimensional array.
+Using sklearn library, the TFIDF matrix for each stemmed sentence of an argument is used as input to compute the cosine similarity of each sentence pair and the values are saved into a multidimensional array.  
+
+## **TODO - expand the following section, give reasonings; paper references?!**
+### **Generate conclusion**
+Based on the similarity matrix, we extract a graph and then calculate the PageRank of its nodes using `networkx.pagerank`. 
+Then, we use the top `n` sentences with the highest PageRank score and use these as a summary of the given argument.
 
 
 
